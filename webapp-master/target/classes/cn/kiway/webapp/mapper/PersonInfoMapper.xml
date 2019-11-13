@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kiway.webapp.mapper.PersonInfoMapper">
+  <cache  type="org.mybatis.caches.ehcache.EhcacheCache" flushInterval="6000" readOnly="false" size="1024"/>
+  <resultMap id="BaseResultMap" type="cn.kiway.webapp.bean.PersonInfo">
+    <id column="SEQ_ID" jdbcType="DECIMAL" property="seqId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="PERSON_ID" jdbcType="DECIMAL" property="personId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="PHONE" jdbcType="VARCHAR" property="phone" />
+    <result column="WEIXIN_ID" jdbcType="VARCHAR" property="weixinId" />
+    <result column="POSITION" jdbcType="VARCHAR" property="position" />
+    <result column="AVATAR_URL" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <association property="person" column="PERSON_ID" jdbcType="DECIMAL"
+                 select="cn.kiway.webapp.mapper.PersonMapper.selectByPrimaryKey"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    SEQ_ID, USER_ID, PERSON_ID, USER_NAME, PHONE, WEIXIN_ID, POSITION, AVATAR_URL, CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PERSON_INFO
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" flushCache="true">
+    delete from PERSON_INFO
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.kiway.webapp.bean.PersonInfo" flushCache="true">
+    insert into PERSON_INFO (SEQ_ID, USER_ID, PERSON_ID, 
+      USER_NAME, PHONE, WEIXIN_ID, 
+      POSITION, AVATAR_URL, CREATE_DATE
+      )
+    values (#{seqId,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, #{personId,jdbcType=DECIMAL}, 
+      #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{weixinId,jdbcType=VARCHAR}, 
+      #{position,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.kiway.webapp.bean.PersonInfo" flushCache="true">
+    insert into PERSON_INFO
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        SEQ_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="personId != null">
+        PERSON_ID,
+      </if>
+      <if test="userName != null">
+        USER_NAME,
+      </if>
+      <if test="phone != null">
+        PHONE,
+      </if>
+      <if test="weixinId != null">
+        WEIXIN_ID,
+      </if>
+      <if test="position != null">
+        POSITION,
+      </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        #{seqId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null">
+        #{personId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null">
+        #{weixinId,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.kiway.webapp.bean.PersonInfo" flushCache="true">
+    update PERSON_INFO
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="personId != null">
+        PERSON_ID = #{personId,jdbcType=DECIMAL},
+      </if>
+      <if test="userName != null">
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        PHONE = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null">
+        WEIXIN_ID = #{weixinId,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        POSITION = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.kiway.webapp.bean.PersonInfo" flushCache="true">
+    update PERSON_INFO
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      PERSON_ID = #{personId,jdbcType=DECIMAL},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      PHONE = #{phone,jdbcType=VARCHAR},
+      WEIXIN_ID = #{weixinId,jdbcType=VARCHAR},
+      POSITION = #{position,jdbcType=VARCHAR},
+      AVATAR_URL = #{avatarUrl,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+</mapper>

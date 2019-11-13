@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <!-- mysql-->
+    <!--
+    <classPathEntry location="D:/jar/mysql-connector-java-8.0.15.jar" />
+    -->
+    <!-- ojdbc-->
+
+    <classPathEntry location="D:/jar/ojdbc6.jar"/>
+    <context id="context1">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!--
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/minte?useUnicode=true&amp;characterEncoding=UTF-8&amp;userSSL=false&amp;serverTimezone=GMT%2B8"
+                        userId="root"
+                        password="Minte1990!"/>
+        <javaModelGenerator targetPackage="cn.kw.minte.data" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="cn.kw.minte.sqlXml.mysql" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="cn.kw.minte.mapping.mysql" targetProject="src/main/java" type="XMLMAPPER"/>
+         -->
+
+        <jdbcConnection driverClass="oracle.jdbc.driver.OracleDriver"
+                        connectionURL="jdbc:oracle:thin:@youbiao.info:1521:orcl" userId="yihang"
+                        password="test"/>
+        <javaModelGenerator targetPackage="cn.kiway.webapp.bean" targetProject="src/main/java"/>
+
+        <sqlMapGenerator targetPackage="cn.kiway.webapp.mapper" targetProject="src/main/resources"/>
+
+        <javaClientGenerator targetPackage="cn.kiway.webapp.mapper" targetProject="src/main/java" type="XMLMAPPER"/>
+
+
+        <table tableName="test_batch" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"/>
+
+
+        <!--
+        <table tableName="person_info" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"/>
+
+               -->
+    </context>
+
+</generatorConfiguration>

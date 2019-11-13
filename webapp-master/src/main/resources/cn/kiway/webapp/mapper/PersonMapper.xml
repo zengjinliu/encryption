@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kiway.webapp.mapper.PersonMapper">
+  <cache  type="org.mybatis.caches.ehcache.EhcacheCache" flushInterval="6000" readOnly="false" size="1024"/>
+  <resultMap id="BaseResultMap" type="cn.kiway.webapp.bean.Person">
+    <id column="SEQ_ID" jdbcType="DECIMAL" property="seqId" />
+    <result column="USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="PW" jdbcType="VARCHAR" property="pw" />
+    <result column="ORG_ID" jdbcType="DECIMAL" property="orgId" />
+    <result column="DEP_ID" jdbcType="DECIMAL" property="depId" />
+    <result column="ROLE_ID" jdbcType="DECIMAL" property="roleId" />
+    <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+    <result column="ASSIST_ROLE" jdbcType="VARCHAR" property="assistRole" />
+    <result column="REGISTER_DATE" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="PERSON_STATE" jdbcType="DECIMAL" property="personState" />
+    <result column="IS_RESERVED" jdbcType="DECIMAL" property="isReserved" />
+    <result column="UNIONID" jdbcType="VARCHAR" property="unionid" />
+    <result column="LOGIN_TYPE" jdbcType="VARCHAR" property="loginType" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SEQ_ID, USER_ID, PW, ORG_ID, DEP_ID, ROLE_ID, ROLE_NAME, ASSIST_ROLE, REGISTER_DATE, 
+    PERSON_STATE, IS_RESERVED, UNIONID, LOGIN_TYPE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from PERSON
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" flushCache="true">
+    delete from PERSON
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.kiway.webapp.bean.Person"  flushCache="true">
+    insert into PERSON (SEQ_ID, USER_ID, PW, 
+      ORG_ID, DEP_ID, ROLE_ID, 
+      ROLE_NAME, ASSIST_ROLE, REGISTER_DATE, 
+      PERSON_STATE, IS_RESERVED, UNIONID, 
+      LOGIN_TYPE)
+    values (#{seqId,jdbcType=DECIMAL}, #{userId,jdbcType=VARCHAR}, #{pw,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=DECIMAL}, #{depId,jdbcType=DECIMAL}, #{roleId,jdbcType=DECIMAL}, 
+      #{roleName,jdbcType=VARCHAR}, #{assistRole,jdbcType=VARCHAR}, #{registerDate,jdbcType=TIMESTAMP}, 
+      #{personState,jdbcType=DECIMAL}, #{isReserved,jdbcType=DECIMAL}, #{unionid,jdbcType=VARCHAR}, 
+      #{loginType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.kiway.webapp.bean.Person" flushCache="true">
+    insert into PERSON
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        SEQ_ID,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="pw != null">
+        PW,
+      </if>
+      <if test="orgId != null">
+        ORG_ID,
+      </if>
+      <if test="depId != null">
+        DEP_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME,
+      </if>
+      <if test="assistRole != null">
+        ASSIST_ROLE,
+      </if>
+      <if test="registerDate != null">
+        REGISTER_DATE,
+      </if>
+      <if test="personState != null">
+        PERSON_STATE,
+      </if>
+      <if test="isReserved != null">
+        IS_RESERVED,
+      </if>
+      <if test="unionid != null">
+        UNIONID,
+      </if>
+      <if test="loginType != null">
+        LOGIN_TYPE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        #{seqId,jdbcType=DECIMAL},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="pw != null">
+        #{pw,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="depId != null">
+        #{depId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleName != null">
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="assistRole != null">
+        #{assistRole,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personState != null">
+        #{personState,jdbcType=DECIMAL},
+      </if>
+      <if test="isReserved != null">
+        #{isReserved,jdbcType=DECIMAL},
+      </if>
+      <if test="unionid != null">
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null">
+        #{loginType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.kiway.webapp.bean.Person" flushCache="true">
+    update PERSON
+    <set>
+      <if test="userId != null">
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="pw != null">
+        PW = #{pw,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null">
+        ORG_ID = #{orgId,jdbcType=DECIMAL},
+      </if>
+      <if test="depId != null">
+        DEP_ID = #{depId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      </if>
+      <if test="roleName != null">
+        ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="assistRole != null">
+        ASSIST_ROLE = #{assistRole,jdbcType=VARCHAR},
+      </if>
+      <if test="registerDate != null">
+        REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="personState != null">
+        PERSON_STATE = #{personState,jdbcType=DECIMAL},
+      </if>
+      <if test="isReserved != null">
+        IS_RESERVED = #{isReserved,jdbcType=DECIMAL},
+      </if>
+      <if test="unionid != null">
+        UNIONID = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="loginType != null">
+        LOGIN_TYPE = #{loginType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.kiway.webapp.bean.Person" flushCache="true">
+    update PERSON
+    set USER_ID = #{userId,jdbcType=VARCHAR},
+      PW = #{pw,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=DECIMAL},
+      DEP_ID = #{depId,jdbcType=DECIMAL},
+      ROLE_ID = #{roleId,jdbcType=DECIMAL},
+      ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+      ASSIST_ROLE = #{assistRole,jdbcType=VARCHAR},
+      REGISTER_DATE = #{registerDate,jdbcType=TIMESTAMP},
+      PERSON_STATE = #{personState,jdbcType=DECIMAL},
+      IS_RESERVED = #{isReserved,jdbcType=DECIMAL},
+      UNIONID = #{unionid,jdbcType=VARCHAR},
+      LOGIN_TYPE = #{loginType,jdbcType=VARCHAR}
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+</mapper>

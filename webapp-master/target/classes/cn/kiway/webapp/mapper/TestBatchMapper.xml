@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.kiway.webapp.mapper.TestBatchMapper">
+  <cache  type="org.mybatis.caches.ehcache.EhcacheCache" flushInterval="6000" readOnly="false" size="1024"/>
+  <resultMap id="BaseResultMap" type="cn.kiway.webapp.bean.TestBatch">
+    <id column="SEQ_ID" jdbcType="DECIMAL" property="seqId" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="AGE" jdbcType="DECIMAL" property="age" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    SEQ_ID, NAME, AGE, CREATE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TEST_BATCH
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="integer" flushCache="true">
+    delete from TEST_BATCH
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="cn.kiway.webapp.bean.TestBatch" flushCache="true">
+    insert into TEST_BATCH (SEQ_ID, NAME, AGE, 
+      CREATE_DATE)
+    values (#{seqId,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=DECIMAL}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.kiway.webapp.bean.TestBatch" flushCache="true">
+    insert into TEST_BATCH
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        SEQ_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="age != null">
+        AGE,
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="seqId != null">
+        #{seqId,jdbcType=DECIMAL},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.kiway.webapp.bean.TestBatch" flushCache="true">
+    update TEST_BATCH
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null">
+        AGE = #{age,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.kiway.webapp.bean.TestBatch" flushCache="true">
+    update TEST_BATCH
+    set NAME = #{name,jdbcType=VARCHAR},
+      AGE = #{age,jdbcType=DECIMAL},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where SEQ_ID = #{seqId,jdbcType=DECIMAL}
+  </update>
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         id="WebApp_ID" version="3.0">
+
+    <!-- session 过期时间 -->
+    <session-config>
+        <session-timeout>1000</session-timeout>
+    </session-config>
+
+    <error-page>
+        <error-code>400</error-code>
+        <location>/httpState/400/dealWith?msg=bad%20request)</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/httpState/404/dealWith?msg=url%20not%20found</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/httpState/500/dealWith?=system%20error</location>
+    </error-page>
+    
+</web-app>
