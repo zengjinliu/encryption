@@ -13,10 +13,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
-/**
- * @author minte
- * @date 2019/9/21 09:26
- */
 public class RsaTest {
 
     @Test

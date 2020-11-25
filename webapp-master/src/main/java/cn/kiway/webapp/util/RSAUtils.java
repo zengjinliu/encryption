@@ -18,11 +18,11 @@ import java.security.spec.X509EncodedKeySpec;
 
 
 /**
- *
  * Rsa 加密解密工具类<br>
  * 约定<br>
  * 1.约定BASE64编码 <br>
  * 2.约定分段加解密的方式为：分段加密，一次编码
+ *
  * @Auther: minte
  * @Date: 2019/3/24 19:31
  */
@@ -33,15 +33,16 @@ public class RSAUtils {
 
     /**
      * 创建公钥和私钥，该方法返回RSAKey对象 ，key 为 publicKey ,privateKey。
+     *
      * @param keySize
      * @return map
      */
-    public static RSAKey createKeys(int keySize){
+    public static RSAKey createKeys(int keySize) {
         //为RSA算法创建一个KeyPairGenerator对象
         KeyPairGenerator kpg;
-        try{
+        try {
             kpg = KeyPairGenerator.getInstance(RSA_ALGORITHM);
-        }catch(NoSuchAlgorithmException e){
+        } catch (NoSuchAlgorithmException e) {
             throw new IllegalArgumentException("No such algorithm-->[" + RSA_ALGORITHM + "]");
         }
 
@@ -51,20 +52,21 @@ public class RSAUtils {
         KeyPair keyPair = kpg.generateKeyPair();
         //得到公钥
         Key publicKey = keyPair.getPublic();
-        String publicKeyStr = Base64.encodeBase64URLSafeString(publicKey.getEncoded());
+        String publicKeyStr = Base64.encodeBase64String(publicKey.getEncoded());
         //得到私钥
         Key privateKey = keyPair.getPrivate();
-        String privateKeyStr = Base64.encodeBase64URLSafeString(privateKey.getEncoded());
+        String privateKeyStr = Base64.encodeBase64String(privateKey.getEncoded());
         RSAKey rsaKey = new RSAKey();
         rsaKey.setPrivateKey(privateKeyStr);
         rsaKey.setPublicKey(publicKeyStr);
 
-        return  rsaKey;
+        return rsaKey;
 
     }
 
     /**
      * 得到公钥
+     *
      * @param publicKey 密钥字符串（经过base64编码）
      * @throws Exception
      */
@@ -78,6 +80,7 @@ public class RSAUtils {
 
     /**
      * 得到私钥
+     *
      * @param privateKey 密钥字符串（经过base64编码）
      * @throws Exception
      */
@@ -91,22 +94,24 @@ public class RSAUtils {
 
     /**
      * 公钥加密
+     *
      * @param data
      * @param publicKey
      * @return
      */
-    public static String publicEncrypt(String data, RSAPublicKey publicKey){
-        try{
+    public static String publicEncrypt(String data, RSAPublicKey publicKey) {
+        try {
             Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), publicKey.getModulus().bitLength()));
-        }catch(Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("加密字符串[" + data + "]时遇到异常", e);
         }
     }
 
     /**
      * 私钥解密
+     *
      * @param data
      * @param privateKey
      * @return
@@ -114,14 +119,15 @@ public class RSAUtils {
 
     public static String privateDecrypt(String data, RSAPrivateKey privateKey) throws InvalidKeyException, UnsupportedEncodingException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException, NoSuchAlgorithmException {
 
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, privateKey);
-            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), privateKey.getModulus().bitLength()), CHARSET);
+        Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), privateKey.getModulus().bitLength()), CHARSET);
 
     }
 
     /**
      * 私钥加密
+     *
      * @param data
      * @param privateKey
      * @return
@@ -129,31 +135,32 @@ public class RSAUtils {
 
     public static String privateEncrypt(String data, RSAPrivateKey privateKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException, BadPaddingException, IllegalBlockSizeException {
 
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, privateKey);
-            return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), privateKey.getModulus().bitLength()));
+        Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+        cipher.init(Cipher.ENCRYPT_MODE, privateKey);
+        return Base64.encodeBase64URLSafeString(rsaSplitCodec(cipher, Cipher.ENCRYPT_MODE, data.getBytes(CHARSET), privateKey.getModulus().bitLength()));
 
     }
 
     /**
      * 公钥解密
+     *
      * @param data
      * @param publicKey
      * @return
      */
 
     public static String publicDecrypt(String data, RSAPublicKey publicKey) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, UnsupportedEncodingException, BadPaddingException, IllegalBlockSizeException {
-            Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, publicKey);
-            return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), publicKey.getModulus().bitLength()), CHARSET);
+        Cipher cipher = Cipher.getInstance(RSA_ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, publicKey);
+        return new String(rsaSplitCodec(cipher, Cipher.DECRYPT_MODE, Base64.decodeBase64(data), publicKey.getModulus().bitLength()), CHARSET);
 
     }
 
     private static byte[] rsaSplitCodec(Cipher cipher, int opmode, byte[] datas, int keySize) throws BadPaddingException, IllegalBlockSizeException {
         int maxBlock = 0;
-        if(opmode == Cipher.DECRYPT_MODE){
+        if (opmode == Cipher.DECRYPT_MODE) {
             maxBlock = keySize / 8;
-        }else{
+        } else {
             maxBlock = keySize / 8 - 11;
         }
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -161,16 +168,16 @@ public class RSAUtils {
         byte[] buff;
         int i = 0;
 
-            while(datas.length > offSet){
-                if(datas.length-offSet > maxBlock){
-                    buff = cipher.doFinal(datas, offSet, maxBlock);
-                }else{
-                    buff = cipher.doFinal(datas, offSet, datas.length-offSet);
-                }
-                out.write(buff, 0, buff.length);
-                i++;
-                offSet = i * maxBlock;
+        while (datas.length > offSet) {
+            if (datas.length - offSet > maxBlock) {
+                buff = cipher.doFinal(datas, offSet, maxBlock);
+            } else {
+                buff = cipher.doFinal(datas, offSet, datas.length - offSet);
             }
+            out.write(buff, 0, buff.length);
+            i++;
+            offSet = i * maxBlock;
+        }
 
         byte[] resultDatas = out.toByteArray();
         IOUtils.closeQuietly(out);
